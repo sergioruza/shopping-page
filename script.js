@@ -18,7 +18,7 @@ const createCustomElement = (element, className, innerText) => {
 };
 
 const cartItemClickListener = (event) => {
-  // coloque seu código aqui
+  
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
@@ -29,6 +29,13 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   return li;
 };
 
+const renderCart = () => {
+  const cartItems = document.querySelector('.cart__items');
+cartItems.innerHTML = '';
+  carrinhoDeCompras.forEach((element) => {
+  cartItems.appendChild(createCartItemElement(element));
+  });
+};
 const createProductItemElement = ({ sku, name, image, salePrice }) => {
   const section = document.createElement('section');
   section.className = 'item';
@@ -38,25 +45,14 @@ const createProductItemElement = ({ sku, name, image, salePrice }) => {
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
   section.querySelector('.item__add').addEventListener('click', () => {
-  // createCartItemElement({ sku, name, image }, add);
 carrinhoDeCompras.push({ sku, name, salePrice });
-  carrinhoDeCompras.forEach((element) => {
-  const cartItems = document.querySelector('.cart__items');
-  cartItems.appendChild(createCartItemElement(element));
-  });
+    renderCart();
 });
-
   return section;
 };
 
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
-// const renderCar = () => {
-//   carrinhoDeCompras.forEach((element) => {
-//     const cartItems = document.querySelector('.cart__items');
-//     cartItems.appendChild(createCartItemElement())
-//   })
-// }
 const functionKey = async () => {
   const items = document.querySelector('.items');
   const fetch = await fetchProducts('computador');
@@ -69,16 +65,6 @@ const functionKey = async () => {
     items.appendChild(guarda);
   });
 };
-
-// const addEvent = () => {
-//   const teste = document.querySelectorAll('.item__add');
-//   teste.forEach((element) => {
-//     element.addEventListener('click', async (event) => {
-//       // console.log(event.target);
-//       carrinhoDeCompras.push();
-//     });
-//   });
-// };
 
 window.onload = async () => {
   await functionKey();
