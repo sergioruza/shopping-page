@@ -36,7 +36,7 @@ const renderCart = async (id) => {
     salePrice: produto.price });
   cartItems.appendChild(li);
 };
-const createProductItemElement = ({ sku, name, image, salePrice }) => {
+const createProductItemElement = ({ sku, name, image }) => {
   const section = document.createElement('section');
   section.className = 'item';
   
