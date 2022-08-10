@@ -18,7 +18,7 @@ const createCustomElement = (element, className, innerText) => {
 };
 
 const cartItemClickListener = (event) => {
-  
+  event.target.remove();
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
