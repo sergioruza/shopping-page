@@ -1,7 +1,4 @@
-// const { fetchProducts } = require('./helpers/fetchProducts');
-
-// const { fetchItem } = require("./helpers/fetchItem");
-const carrinhoDeCompras = [];
+// let carrinhoDeCompras = [];
 
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
@@ -19,6 +16,7 @@ const createCustomElement = (element, className, innerText) => {
 
 const cartItemClickListener = (event) => {
   event.target.remove();
+  carrinhoDeCompras = [];
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
@@ -29,12 +27,14 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   return li;
 };
 
-const renderCart = () => {
+const renderCart = async (id) => {
   const cartItems = document.querySelector('.cart__items');
-cartItems.innerHTML = '';
-  carrinhoDeCompras.forEach((element) => {
-  cartItems.appendChild(createCartItemElement(element));
-  });
+//  cartItems.innerHTML = '';
+  const produto = await fetchItem(id);
+  const li = createCartItemElement({ sku: id, 
+    name: produto.title, 
+    salePrice: produto.price });
+  cartItems.appendChild(li);
 };
 const createProductItemElement = ({ sku, name, image, salePrice }) => {
   const section = document.createElement('section');
@@ -45,8 +45,8 @@ const createProductItemElement = ({ sku, name, image, salePrice }) => {
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
   section.querySelector('.item__add').addEventListener('click', () => {
-carrinhoDeCompras.push({ sku, name, salePrice });
-    renderCart();
+// carrinhoDeCompras.push({ sku, name, salePrice });
+    renderCart(sku);
 });
   return section;
 };
