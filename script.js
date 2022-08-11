@@ -17,7 +17,7 @@ const createCustomElement = (element, className, innerText) => {
 
 const cartItemClickListener = (event) => {
   event.target.remove();
-  saveCartItems(cartItems.innerHTML);
+  saveCartItems(carrinhoDeCompras);
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
@@ -29,21 +29,28 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
 };
 
 const renderCart = async (id) => {
-//  cartItems.innerHTML = '';
   const produto = await fetchItem(id);
   const li = createCartItemElement({ sku: id, 
     name: produto.title, 
     salePrice: produto.price });
+    carrinhoDeCompras.push({ sku: id, 
+      name: produto.title, 
+      salePrice: produto.price });
   cartItems.appendChild(li);
-  saveCartItems(cartItems.innerHTML);
+  saveCartItems(carrinhoDeCompras);
 };
 
-// const guardaLocalStorage = () => {
-//   const seila = cartItems.innerHTML;
-//   carrinhoDeCompras.push(seila);
-//   saveCartItems(carrinhoDeCompras);
-// };
+const renderStorage = () => {
+  cartItems.innerHTML = '';
+  carrinhoDeCompras.forEach((element) => {
+    const elementosCart = createCartItemElement(element);
+    cartItems.appendChild(elementosCart);
+  });
+};
 
+//  const removeArray = (sku) => {
+//   const elementoIndex = carrinhoDeCompras.findIndex(({ element }) => element === sku);
+//  };
 const createProductItemElement = ({ sku, name, image }) => {
   const section = document.createElement('section');
   section.className = 'item';
@@ -72,9 +79,9 @@ const functionKey = async () => {
     items.appendChild(guarda);
   });
 };
-
 window.onload = async () => {
   await functionKey();
-  addEvent();
-  cartItems.innerHTML = getSavedCartItems();
+  // cartItems.innerHTML = getSavedCartItems();
+  carrinhoDeCompras = getSavedCartItems() || [];
+  renderStorage();
 };
