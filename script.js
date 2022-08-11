@@ -1,5 +1,6 @@
 const cartItems = document.querySelector('.cart__items');
 let carrinhoDeCompras = [];
+const btnLimpa = document.querySelector('.empty-cart');
 
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
@@ -81,6 +82,12 @@ const functionKey = async () => {
     items.appendChild(guarda);
   });
 };
+
+btnLimpa.addEventListener('click', () => {
+  localStorage.clear();
+  cartItems.innerHTML = '';
+  console.log('entrou');
+});
 window.onload = async () => {
   await functionKey();
   // cartItems.innerHTML = getSavedCartItems();
