@@ -70,6 +70,8 @@ const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').inn
 const functionKey = async () => {
   const items = document.querySelector('.items');
   const fetch = await fetchProducts('computador');
+  const loading = document.querySelector('.loading');
+  loading.remove();
   fetch.results.forEach((element) => {
     // const { id: sku, title: name, thumbnail: image } = element;
     const guarda = createProductItemElement({ sku: element.id,
