@@ -2,17 +2,23 @@ const cartItems = document.querySelector('.cart__items');
 let carrinhoDeCompras = [];
 const btnLimpa = document.querySelector('.empty-cart');
 
-const addValorTotal = async (soma) => { // ----------------> referenciando dicas e ajuda de Anderson Nunes
+const addValorTotal = (soma) => { // --------------------------------------------------------------------> referenciando dicas e ajuda de Anderson Nunes
   const somaTotal = document.querySelector('.total-price');
   somaTotal.innerHTML = soma;
- };
+};
 
- const somaDoCart = async () => { // ----------------> referenciando dicas e ajuda de Anderson Nunes
-  const items = await document.querySelectorAll('.cart__items');
+ const somaDoCart = () => { // --------------------------------------------------------------------> referenciando dicas e ajuda de Anderson Nunes
+  const items = document.querySelectorAll('.cart__items li');
   let totalSoma = 0;
-  items.forEach((element) => {
-    totalSoma += parseFloat(element.innerText.split('$'));
-  });
+  for (let i = 0; i < items.length; i += 1) {
+    const numeroDoProduto = parseFloat(items[i].innerText.split('$')[1]);
+    totalSoma += numeroDoProduto;
+  }
+  // const somaTotal = items.reduce((acc, atual) => acc + parseFloat(atual.innerText.split('$')[1]));
+  // addValorTotal(somaTotal);
+  // items.forEach((element) => {
+  //   totalSoma += parseFloat(element.innerText.split('$'));
+  // });
   addValorTotal(totalSoma);
  };
 
@@ -32,7 +38,8 @@ const createCustomElement = (element, className, innerText) => {
 
 const cartItemClickListener = (event) => {
   event.target.remove();
-  saveCartItems(carrinhoDeCompras); // --------> referenciando ajuda de Guthias
+  saveCartItems(carrinhoDeCompras); // --------------------------------------------------------------------> referenciando ajuda de Guthias
+  somaDoCart(); // --------------------------------------------------------------------> referenciando ajuda de [mentoria] - André Horman
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
@@ -51,7 +58,7 @@ const renderCart = async (id) => {
     carrinhoDeCompras.push({ sku: id, 
       name: produto.title, 
       salePrice: produto.price });
-  cartItems.appendChild(li); // --------> referenciando ajuda de Guthias
+  cartItems.appendChild(li); // --------------------------------------------------------------------> referenciando ajuda de Guthias
   saveCartItems(carrinhoDeCompras);
   somaDoCart();
 };
@@ -87,10 +94,10 @@ const functionKey = async () => {
   const items = document.querySelector('.items');
   const fetch = await fetchProducts('computador');
   const loading = document.querySelector('.loading');
-  loading.remove(); // ---------> referenciando ajuda e dicas de Anderson Nunes
+  loading.remove(); // --------------------------------------------------------------------> referenciando ajuda e dicas de Anderson Nunes
   fetch.results.forEach((element) => {
     // const { id: sku, title: name, thumbnail: image } = element;
-    const guarda = createProductItemElement({ sku: element.id, // -------> refenciando ajuda de Arthur Debiasi
+    const guarda = createProductItemElement({ sku: element.id, // -------------------------------------------> refenciando ajuda de Arthur Debiasi
       name: element.title, 
       image: element.thumbnail, 
       salePrice: element.price });
@@ -99,8 +106,10 @@ const functionKey = async () => {
 };
 
 btnLimpa.addEventListener('click', () => {
+  const total = document.querySelector('.total-price');
   localStorage.clear();
   cartItems.innerHTML = '';
+  total.innerHTML = '';
 });
 
 window.onload = async () => {
