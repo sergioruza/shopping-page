@@ -2,6 +2,20 @@ const cartItems = document.querySelector('.cart__items');
 let carrinhoDeCompras = [];
 const btnLimpa = document.querySelector('.empty-cart');
 
+const addValorTotal = async (soma) => { // ----------------> referenciando dicas e ajuda de Anderson Nunes
+  const somaTotal = document.querySelector('.total-price');
+  somaTotal.innerHTML = soma;
+ };
+
+ const somaDoCart = async () => { // ----------------> referenciando dicas e ajuda de Anderson Nunes
+  const items = await document.querySelectorAll('.cart__items');
+  let totalSoma = 0;
+  items.forEach((element) => {
+    totalSoma += parseFloat(element.innerText.split('$'));
+  });
+  addValorTotal(totalSoma);
+ };
+
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -18,7 +32,7 @@ const createCustomElement = (element, className, innerText) => {
 
 const cartItemClickListener = (event) => {
   event.target.remove();
-  saveCartItems(carrinhoDeCompras);
+  saveCartItems(carrinhoDeCompras); // --------> referenciando ajuda de Guthias
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
@@ -37,8 +51,9 @@ const renderCart = async (id) => {
     carrinhoDeCompras.push({ sku: id, 
       name: produto.title, 
       salePrice: produto.price });
-  cartItems.appendChild(li);
+  cartItems.appendChild(li); // --------> referenciando ajuda de Guthias
   saveCartItems(carrinhoDeCompras);
+  somaDoCart();
 };
 
 const renderStorage = () => {
@@ -72,10 +87,10 @@ const functionKey = async () => {
   const items = document.querySelector('.items');
   const fetch = await fetchProducts('computador');
   const loading = document.querySelector('.loading');
-  loading.remove();
+  loading.remove(); // ---------> referenciando ajuda e dicas de Anderson Nunes
   fetch.results.forEach((element) => {
     // const { id: sku, title: name, thumbnail: image } = element;
-    const guarda = createProductItemElement({ sku: element.id,
+    const guarda = createProductItemElement({ sku: element.id, // -------> refenciando ajuda de Arthur Debiasi
       name: element.title, 
       image: element.thumbnail, 
       salePrice: element.price });
@@ -86,11 +101,10 @@ const functionKey = async () => {
 btnLimpa.addEventListener('click', () => {
   localStorage.clear();
   cartItems.innerHTML = '';
-  console.log('entrou');
 });
+
 window.onload = async () => {
   await functionKey();
-  // cartItems.innerHTML = getSavedCartItems();
   carrinhoDeCompras = getSavedCartItems() || [];
   renderStorage();
 };
