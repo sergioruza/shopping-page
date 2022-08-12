@@ -14,11 +14,6 @@ const addValorTotal = (soma) => { // -------------------------------------------
     const numeroDoProduto = parseFloat(items[i].innerText.split('$')[1]);
     totalSoma += numeroDoProduto;
   }
-  // const somaTotal = items.reduce((acc, atual) => acc + parseFloat(atual.innerText.split('$')[1]));
-  // addValorTotal(somaTotal);
-  // items.forEach((element) => {
-  //   totalSoma += parseFloat(element.innerText.split('$'));
-  // });
   addValorTotal(totalSoma);
  };
 
@@ -71,9 +66,6 @@ const renderStorage = () => {
   });
 };
 
-//  const removeArray = (sku) => {
-//   const elementoIndex = carrinhoDeCompras.findIndex(({ element }) => element === sku);
-//  };
 const createProductItemElement = ({ sku, name, image }) => {
   const section = document.createElement('section');
   section.className = 'item';
@@ -88,15 +80,12 @@ const createProductItemElement = ({ sku, name, image }) => {
   return section;
 };
 
-// const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
-
 const functionKey = async () => {
   const items = document.querySelector('.items');
   const fetch = await fetchProducts('computador');
   const loading = document.querySelector('.loading');
   loading.remove(); // --------------------------------------------------------------------> referenciando ajuda e dicas de Anderson Nunes
   fetch.results.forEach((element) => {
-    // const { id: sku, title: name, thumbnail: image } = element;
     const guarda = createProductItemElement({ sku: element.id, // -------------------------------------------> refenciando ajuda de Arthur Debiasi
       name: element.title, 
       image: element.thumbnail, 
